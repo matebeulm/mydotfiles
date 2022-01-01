@@ -54,6 +54,7 @@ map('n', '<leader>vr', '<cmd>source $MYVIMRC<cr>')
 
 map('n', '<leader>k', '<cmd>nohlsearch<cr>')
 map('n', '<leader>Q', '<cmd>bufdo bdelete<cr>')
+map('n', '<leader>o', '<cmd>only<cr>')
 
 -- allow gf to open nonexistent files
 map('n', 'gf', '<cmd>edit <cfile><cr>', { noremap = false })

@@ -159,3 +159,8 @@ use({
 	'simrat39/symbols-outline.nvim',
 	config = get_config('symbols-outline'),
 })
+
+use({
+    'windwp/nvim-autopairs',
+    config = get_config('autopairs'),
+})

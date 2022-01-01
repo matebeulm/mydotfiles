@@ -32,10 +32,16 @@ map(
 )
 map('n', '<leader>dd', '<cmd>Telescope dap configurations<cr>', default_options)
 
-map('n', '<leader>dO', '<cmd>lua require"dap".step_out()<cr>', default_options)
-map('n', '<leader>di', '<cmd>lua require"dap".step_into()<cr>', default_options)
-map('n', '<leader>do', '<cmd>lua require"dap".step_over()<cr>', default_options)
-map('n', '<leader>dc', '<cmd>lua require"dap".continue()<cr>', default_options)
+map('n', '<c-k>', '<cmd>lua require"dap".step_out()<cr>', default_options)
+map('n', '<c-l>', '<cmd>lua require"dap".step_into()<cr>', default_options)
+map('n', '<c-j>', '<cmd>lua require"dap".step_over()<cr>', default_options)
+map('n', '<c-h>', '<cmd>lua require"dap".continue()<cr>', default_options)
+
+-- map('n', '<leader>di', ':lua require"dap.ui.variables".hover()<CR>')
+map('n', '<leader>di', '<cmd>lua require"dap.ui.variables".visual_hover()<cr>', default_options)
+map('n', '<leader>d?', '<cmd>lua require"dap.ui.variables".scopes()<cr>', default_options)
+
+map('n', '<leader>dc', '<cmd>lua require"dap".disconnect({ terminateDebuggee = true });require"dap".close()<cr>', default_options)
 
 map('n', '<leader>dui', '<cmd>lua require"dapui".toggle()<cr>', default_options)
 
@@ -51,5 +57,12 @@ map('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<cr>', default_options)
 map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', default_options)
 map('n', 'gr', '<cmd>Telescope lsp_references<cr>', default_options)
 map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', default_options)
+map('n', '<space>s', '<cmd>lua vim.lsp.buf.document_symbol()<cr>', default_options)
+map('n', '<space>m', '<cmd>lua vim.lsp.buf.rename()<cr>', default_options)
 
 map('n', '<leader>so', '<cmd>SymbolsOutline<cr>', default_options)
+
+map('n', '<leader>cc', '<cmd>CMakeClose<cr>', default_options)
+map('n', '<leader>co', '<cmd>CMakeOpen<cr>', default_options)
+map('n', '<leader>cb', '<cmd>wall <bar> CMakeBuild<cr>', default_options)
+map('n', '<leader>cg', '<cmd>CMakeGenerate<cr>', default_options)
