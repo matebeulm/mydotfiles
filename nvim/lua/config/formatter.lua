@@ -4,8 +4,7 @@ local M = {}
 local util = require("formatter.util")
 
 function M.setup()
-
-	require("formatter").setup({
+  	require("formatter").setup({
 		filetype = {
 			lua = {
 				require("formatter.filetypes.lua").stylua,

@@ -1,21 +1,39 @@
 local M = {}
 
-function M.setup()
+local nvim_lsp = require("lspconfig")
+local servers = { "clangd", "pylsp", "sumneko_lua" }
 
-	-- local servers = { "pyright", "rust_analyzer", "clangd", "gdscript" }
-	local servers = { "clangd" }
-	for _, lsp in pairs(servers) do
-		require("lspconfig")[lsp].setup({
-			on_attach = on_attach,
-			flags = {
-				-- This will be the default in neovim 0.7+
-				debounce_text_changes = 150,
+function M.setup()
+	require("lspconfig").pylsp.setup({})
+	require("lspconfig").clangd.setup({})
+	require("lspconfig").sumneko_lua.setup({
+		settings = {
+			Lua = {
+				runtime = {
+					-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+					version = "LuaJIT",
+				},
+				diagnostics = {
+					-- Get the language server to recognize the `vim` global
+					globals = { "vim" },
+				},
+				workspace = {
+					-- Make the server aware of Neovim runtime files
+					library = vim.api.nvim_get_runtime_file("", true),
+				},
+				-- Do not send telemetry data containing a randomized but unique identifier
+				telemetry = {
+					enable = false,
+				},
 			},
+		},
+	})
+
+	for _, lsp in ipairs(servers) do
+		nvim_lsp[lsp].setup({
+			capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 		})
 	end
-
-	require("lspconfig").clangd.setup({})
-
 end
 
 return M
