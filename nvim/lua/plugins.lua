@@ -1,166 +1,165 @@
-local execute = vim.api.nvim_command
-local fn = vim.fn
+local M = {}
 
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+function M.setup()
+	-- indicate first time installation
+	local packer_bootstrap = false
 
--- returns the require for use in `config` parameter of packer's use
--- expects the name of the config file
-function get_config(name)
-	return string.format("require('config/%s')", name)
+	-- packer nvim configuration
+	local conf = {
+		display = {
+			open_fn = function()
+				return require("packer.util").float({ border = "rounded" })
+			end,
+		},
+	}
+
+	-- check if packer.nvim is installed
+	-- run PackerCompile if there are changes in this file
+	local function packer_init()
+		local fn = vim.fn
+		local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+		if fn.empty(fn.glob(install_path)) > 0 then
+			packer_bootstrap = fn.system({
+				"git",
+				"clone",
+				"--depth",
+				"1",
+				"https://github.com/wbthomason/packer.nvim",
+				install_path,
+			})
+			vim.cmd([[packadd packer.nvim]])
+		end
+		vim.cmd("autocmd BufWritePost plugins.lua source <afile> | PackerCompile")
+	end
+
+	-- plugins
+	local function plugins(use)
+		use({ "wbthomason/packer.nvim" })
+
+		use({
+			"marko-cerovac/material.nvim",
+			config = function()
+				vim.cmd("colorscheme material")
+			end,
+		})
+
+		use({
+			"nvim-treesitter/nvim-treesitter",
+			run = "<cmd>TSUpdate",
+			config = function()
+				require("config.treesitter").setup()
+			end,
+		})
+
+		use({
+			"nvim-telescope/telescope.nvim",
+			requires = {
+				{ "nvim-lua/plenary.nvim" },
+				{ "nvim-telescope/telescope-fzy-native.nvim" },
+			},
+			config = function()
+				require("config.telescope").setup()
+			end,
+		})
+
+		use({
+			"mhartington/formatter.nvim",
+			config = function()
+				require("config.formatter").setup()
+			end,
+		})
+
+		use({
+			"numToStr/Comment.nvim",
+			config = function()
+				require("config.comment").setup()
+			end,
+		})
+		-- use("tpope/vim-commentary")
+
+		use({
+			"shatur/neovim-cmake",
+			requires = {
+				{ "nvim-lua/plenary.nvim" },
+				{ "mfussenegger/nvim-dap" },
+			},
+			config = function()
+				require("config.cmake").setup()
+			end,
+		})
+
+		use({
+			"folke/which-key.nvim",
+			config = function()
+				require("config.whichkey").setup()
+			end,
+		})
+
+		use({
+			"neovim/nvim-lspconfig",
+			config = function()
+				require("config.lsp").setup()
+			end,
+		})
+
+		use({
+			"TimUntersberger/neogit",
+			requires = "nvim-lua/plenary.nvim",
+			config = function()
+				require("config.neogit").setup()
+			end,
+		})
+
+		use({
+			"L3MON4D3/LuaSnip",
+			config = function()
+				require("config/luasnip").setup()
+			end,
+		})
+
+		use({
+			"hrsh7th/nvim-cmp",
+			requires = {
+				"hrsh7th/cmp-buffer",
+				"hrsh7th/cmp-nvim-lsp",
+				"hrsh7th/cmp-nvim-lua",
+				"hrsh7th/cmp-path",
+				"hrsh7th/cmp-calc",
+			},
+			config = function()
+				require("config.nvim-cmp").setup()
+			end,
+		})
+
+		-- Debugging
+		use({
+			"mfussenegger/nvim-dap",
+			opt = true,
+			event = "BufReadPre",
+			module = { "dap" },
+			wants = { "nvim-dap-virtual-text", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
+			requires = {
+				"theHamsta/nvim-dap-virtual-text",
+				"rcarriga/nvim-dap-ui",
+				"mfussenegger/nvim-dap-python",
+				"nvim-telescope/telescope-dap.nvim",
+			},
+			config = function()
+				require("config.dap").setup()
+			end,
+		})
+
+		if packer_bootstrap then
+			print("restart neovim required after installation!")
+			require("packer").sync()
+		end
+	end
+
+	packer_init()
+
+	local packer = require("packer")
+	packer.init(conf)
+	packer.startup(plugins)
 end
 
--- bootstrap packer if not installed
-if fn.empty(fn.glob(install_path)) > 0 then
-	fn.system({
-		'git',
-		'clone',
-		'https://github.com/wbthomason/packer.nvim',
-		install_path,
-	})
-	execute('packadd packer.nvim')
-end
-
--- initialize and configure packer
-local packer = require('packer')
-packer.init({
-	enable = true, -- enable profiling via :PackerCompile profile=true
-	threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
-})
-local use = packer.use
-packer.reset()
-
--- actual plugins list
-use('wbthomason/packer.nvim')
-
-use({
-	'nvim-telescope/telescope.nvim',
-	requires = {
-		{ 'nvim-lua/popup.nvim' },
-		{ 'nvim-lua/plenary.nvim' },
-		{ 'nvim-telescope/telescope-fzy-native.nvim' },
-		{ 'nvim-telescope/telescope-symbols.nvim' },
-	},
-	config = get_config('telescope'),
-})
-
-use({
-	'nvim-treesitter/nvim-treesitter',
-	config = get_config('treesitter'),
-	run = ':TSUpdate',
-})
-
-use({
-	'terrortylor/nvim-comment',
-	config = get_config('comment'),
-})
-
-use({
-	'mhartington/formatter.nvim',
-	config = get_config('formatter'),
-})
-
-use({
-	'cdelledonne/vim-cmake',
-	config = get_config('cmake'),
-})
-
-use({
-	'lukas-reineke/indent-blankline.nvim',
-	config = get_config('blankline'),
-})
-
-use({
-	'nvim-lualine/lualine.nvim',
-	requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-	config = get_config('lualine'),
-})
-
--- color scheme nord with lush
-use({
-	'kunzaatko/nord.nvim',
-	requires = { 'rktjmp/lush.nvim', opt = true },
-	config = get_config('nord-theme'),
-})
-
--- use({
--- 	'shaunsingh/nord.nvim',
--- 	config = get_config('nordtheme'),
--- })
-
--- Lua
-use({
-	'folke/which-key.nvim',
-	config = get_config('which-key'),
-})
-
-use({
-	'chrisbra/unicode.vim',
-})
-
-use({
-	'ray-x/lsp_signature.nvim',
-	config = get_config('lsp-signature'),
-})
-
-use({
-	'neovim/nvim-lspconfig',
-	config = get_config('nvim-lspconfig'),
-})
-
-use({
-	'hrsh7th/nvim-cmp',
-	requires = {
-		'neovim/nvim-lspconfig',
-		'hrsh7th/cmp-nvim-lsp',
-		'hrsh7th/cmp-buffer',
-		'hrsh7th/cmp-path',
-		'hrsh7th/cmp-cmdline',
-		'l3mon4d3/luasnip',
-	},
-	config = get_config('nvim-cmp'),
-})
-
-use({
-	'mfussenegger/nvim-dap',
-	config = get_config('nvim-dap'),
-})
-
-use({
-	'rcarriga/nvim-dap-ui',
-	requires = { 'mfussenegger/nvim-dap' },
-	config = get_config('nvim-dap-ui'),
-})
-
-use({
-	'nvim-telescope/telescope-dap.nvim',
-	requires = {
-		'mfussenegger/nvim-dap',
-		'nvim-telescope/telescope.nvim',
-		{ 'nvim-treesitter/nvim-treesitter', opt = true },
-	},
-	config = get_config('telescope-dap'),
-})
-
-use({
-	'theHamsta/nvim-dap-virtual-text',
-	requires = { { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }, 'mfussenegger/nvim-dap' },
-	config = get_config('nvim-dap-virtual-text'),
-})
-
-use({
-	'kyazdani42/nvim-tree.lua',
-	requires = {
-		'kyazdani42/nvim-web-devicons', -- optional, for file icon
-	},
-	config = get_config('nvim-tree'),
-})
-
-use({
-	'simrat39/symbols-outline.nvim',
-	config = get_config('symbols-outline'),
-})
-
-use({
-    'windwp/nvim-autopairs',
-    config = get_config('autopairs'),
-})
+return M

@@ -1,44 +1,44 @@
-require('formatter').setup({
-	logging = False,
-	filetype = {
-		cpp = {
-			-- clang-format
-			function()
-				return {
-					exe = 'clang-format',
-					args = { '--assume-filename', vim.api.nvim_buf_get_name(0) },
-					stdin = true,
-					cwd = vim.fn.expand('%:p:h'), -- Run clang-format in cwd of the file.
-				}
-			end,
+local M = {}
+
+-- Utilities for creating configurations
+local util = require("formatter.util")
+
+function M.setup()
+
+	require("formatter").setup({
+		filetype = {
+			lua = {
+				require("formatter.filetypes.lua").stylua,
+			},
+			cmake = {
+				function()
+					return {
+						exe = "cmake-format",
+						args = {
+							util.escape_path(util.get_current_buffer_file_path()),
+						},
+						stdin = true,
+					}
+				end,
+			},
+			cpp = {
+				require("formatter.filetypes.cpp").clangformat,
+			},
+			json = {
+				function()
+					return {
+						exe = "fixjson",
+						args = {
+							"-i 2",
+							"--stdin-filename",
+							util.escape_path(util.get_current_buffer_file_path()),
+						},
+						stdin = true,
+					}
+				end,
+			},
 		},
-		json = {
-			-- prettier
-			function()
-				return {
-					exe = 'prettier',
-					args = { '--stdin-filepath', vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote' },
-					stdin = true,
-				}
-			end,
-		},
-		lua = {
-			-- luafmt
-			function()
-				return {
-					-- exe = "luafmt",
-					-- args = {"--indent-count", 2, "--stdin"},
-					-- stdin = true
-					exe = 'stylua',
-					args = {
-						'--indent-type tabs',
-						'--quote-style AutoPreferSingle',
-						'--indent-width 2',
-						'-',
-					},
-					stdin = true,
-				}
-			end,
-		},
-	},
-})
+	})
+end
+
+return M

@@ -1,47 +1,33 @@
-require('nvim-treesitter.configs').setup({
-	--    ensure_installed = {
-	--        'bash', 'cmake', 'dockerfile', 'go', 'hcl', 'html', 'java',
-	--        'javascript', 'json', 'latex', 'ledger', 'lua', 'python', 'toml', 'yaml'
-	--    }, -- one of 'all', 'maintained' (parsers with maintainers), or a list of languages
-	--    ignore_install = {}, -- List of parsers to ignore installing
-	--    highlight = {
-	--        enable = true, -- false will disable the whole extension
-	--        disable = {} -- list of language that will be disabled
-	--    },
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = '<CR>',
-			scope_incremental = '<CR>',
-			node_incremental = '<TAB>',
-			node_decremental = '<S-TAB>',
-		},
-	},
-	indent = { enable = true },
-	autopairs = { { enable = true } },
-	textobjects = {
-		select = {
+local M = {}
+
+function M.setup()
+	require("nvim-treesitter.configs").setup({
+		-- A list of parser names, or "all"
+		ensure_installed = { "c", "cpp", "lua" },
+
+		-- Install parsers synchronously (only applied to `ensure_installed`)
+		sync_install = false,
+
+		-- List of parsers to ignore installing (for "all")
+		ignore_install = { "javascript" },
+
+		highlight = {
+			-- `false` will disable the whole extension
 			enable = true,
-			-- Automatically jump forward to textobj, similar to targets.vim
-			lookahead = true,
-			keymaps = {
-				-- You can use the capture groups defined in textobjects.scm
-				['af'] = '@function.outer',
-				['if'] = '@function.inner',
-				['ac'] = '@class.outer',
-				['ic'] = '@class.inner',
-				['al'] = '@loop.outer',
-				['il'] = '@loop.inner',
-				['ib'] = '@block.inner',
-				['ab'] = '@block.outer',
-				['ir'] = '@parameter.inner',
-				['ar'] = '@parameter.outer',
-			},
+
+			-- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+			-- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+			-- the name of the parser)
+			-- list of language that will be disabled
+			-- disable = { "c", "rust" },
+
+			-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+			-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+			-- Using this option may slow down your editor, and you may see some duplicate highlights.
+			-- Instead of true it can also be a list of languages
+			additional_vim_regex_highlighting = false,
 		},
-	},
-	rainbow = {
-		enable = true,
-		extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-		max_file_lines = 2000, -- Do not enable for files with more than specified lines
-	},
-})
+	})
+end
+
+return M
