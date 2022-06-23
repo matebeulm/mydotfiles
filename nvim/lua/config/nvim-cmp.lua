@@ -3,6 +3,9 @@ local M = {}
 local ls = require("luasnip")
 local cmp = require("cmp")
 
+-- Auto pairs
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
 function M.setup()
 	cmp.setup({
 		snippet = {
@@ -43,6 +46,8 @@ function M.setup()
 		--   format = lspkind.cmp_format({with_text = false, maxwidth = 50})
 		-- }
 	})
+
+	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
 end
 
 return M

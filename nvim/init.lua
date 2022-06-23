@@ -124,6 +124,13 @@ local function plugins(use)
 	})
 
 	use({
+		"mfussenegger/nvim-dap",
+		config = function()
+			require("config.dap").setup()
+		end,
+	})
+
+	use({
 		"rcarriga/nvim-dap-ui",
 		requires = { "mfussenegger/nvim-dap" },
 		config = function()
