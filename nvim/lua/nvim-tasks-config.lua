@@ -1,3 +1,5 @@
+-- nvim-tasks-config.lua
+
 local Path = require('plenary.path')
 require('tasks').setup({
   default_params = { -- Default module parameters with which `neovim.json` will be created.

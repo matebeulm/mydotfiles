@@ -1,3 +1,5 @@
+-- telescope-config.lua
+
 local status_ok, telescope = pcall(require, "telescope")
 if not status_ok then
   return
@@ -97,5 +99,3 @@ require('telescope').setup{
     -- please take a look at the readme of the extension you want to configure
   }
 }
-
-

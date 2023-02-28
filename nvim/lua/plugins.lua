@@ -1,64 +1,92 @@
+-- plugins.lua
+
 return {
+  -- plugins will be added here accordingly
 
+  -- Which-key Extension
   "folke/which-key.nvim",
-  "ChristianChiarulli/vscode-easymotion",
-  "phaazon/hop.nvim",
-
-  "nvim-tree/nvim-tree.lua",
-  "nvim-tree/nvim-web-devicons",
-  "akinsho/toggleterm.nvim",
-  'folke/tokyonight.nvim',
-
-  { 'lewis6991/gitsigns.nvim' },
-
-  {
-    'tpope/vim-surround',
-  },
-  {
-    'tpope/vim-fugitive',
-  },
-
-  { 'mbbill/undotree' },
-
-  { "goolord/alpha-nvim" },
-
-  -- Comments
-  { "numToStr/Comment.nvim" },
-  { "JoosepAlviste/nvim-ts-context-commentstring" },
-
-  -- Indentation
-  "lukas-reineke/indent-blankline.nvim",
-
-  -- Treesitter
-  {
-    "nvim-treesitter/nvim-treesitter",
-  },
-
-  {
-    'p00f/nvim-ts-rainbow'
-  },
-
-
-  -- Telescope
-  { "nvim-lua/plenary.nvim" },
-  { "nvim-telescope/telescope.nvim" },
-
-  --  BufferLine
+  lazy = true,
+  -- Bufferline
   {
     'akinsho/bufferline.nvim',
     dependencies = 'nvim-tree/nvim-web-devicons'
   },
-
-  { "windwp/nvim-autopairs" },
-
-
-  -- Lualine
+  -- Colorscheme
+  {
+    'folke/tokyonight.nvim',
+  },
+  -- Lualine (THE NEW EXTENSION ADDED IN CONFIGURATION)
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' }
   },
-
-  -- Lsp
+  -- Hop (Better Navigation)
+  {
+    "phaazon/hop.nvim",
+    lazy = true,
+  },
+  -- Nvimtree (File Explorer)
+  {
+    'nvim-tree/nvim-tree.lua',
+    lazy = true,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
+  },
+  -- Telescope (Fuzzy Finder)
+  {
+    'nvim-telescope/telescope.nvim',
+    lazy = true,
+    dependencies = {
+      { 'nvim-lua/plenary.nvim' },
+    }
+  },
+  -- Treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+  },
+  -- Toggle Term
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    config = true
+  },
+  -- Auto Pairs
+  {
+    "windwp/nvim-autopairs",
+    dependencies = {
+      { 'hrsh7th/nvim-cmp' },
+    }
+  },
+  -- Nvim-Surround (Manipulating Surroundings)
+  {
+    "kylechui/nvim-surround",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
+  -- Undo-Tree
+  {
+    "jiaoshijie/undotree",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
+  -- Indentation Highlighting
+  {
+    "lukas-reineke/indent-blankline.nvim",
+  },
+  -- Rainbow Highlighting
+  {
+    "HiPhish/nvim-ts-rainbow2",
+  },
+  -- Git Integration
+  {
+    "lewis6991/gitsigns.nvim",
+  },
+  -- Language Support
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v1.x',
@@ -78,9 +106,15 @@ return {
 
       -- Snippets
       { 'L3MON4D3/LuaSnip' }, -- Required
+      { 'rafamadriz/friendly-snippets' }, -- Optional
     }
   },
-
-  -- tasks
-  { 'Shatur/neovim-tasks' },
+  -- neovim-tasks
+  {
+    'Shatur/neovim-tasks',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'mfussenegger/nvim-dap',
+    },
+  }
 }

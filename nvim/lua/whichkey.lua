@@ -1,3 +1,5 @@
+-- whichkey.lua
+
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
     return
@@ -79,40 +81,43 @@ local opts = {
 }
 
 local mappings = {
-
-    ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-    ["b"] = {
-        "<cmd>lua require('telescope.builtin').buffers()<cr>",
-        "Buffers",
-    },
-    ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-    ["k"] = { "<cmd>bdelete<CR>", "Kill Buffer" },
-    ["p"] = { "<cmd>Lazy<CR>", "Plugin Manager" },
-    ["q"] = { "<cmd>wqall!<CR>", "Quit" },
-    ["r"] = { "<cmd>lua vim.lsp.buf.format{async=true}<cr>", "Reformat Code" },
-    ["u"] = { "<cmd>UndotreeToggle<CR>", "Undo-Tree" },
-    ["w"] = { "<cmd>w!<CR>", "Save" },
-
-
-    --Configuration Files
-    c = {
-        name = "Configuration",
-        i = { "<cmd>e $MYVIMRC<cr>", "Init File" },
-        p = { "<cmd>e ~/.config/nvim/lua/plugins.lua<cr>", "Plugins" },
-        k = { "<cmd>e ~/.config/nvim/lua/keymaps.lua<cr>", "Keymaps" },
-        o = { "<cmd>e ~/.config/nvim/lua/options.lua<cr>", "Options" },
-        w = { "<cmd>e ~/.config/nvim/lua/whichkey.lua<cr>", "Which-Key" },
-    },
-
-
+    ["k"] = { "<cmd>bdelete<CR>", "Kill Buffer" }, -- Close current file
+    ["p"] = { "<cmd>Lazy<CR>", "Plugin Manager" }, -- Invoking plugin manager
+    ["q"] = { "<cmd>wqall!<CR>", "Quit" }, -- Quit Neovim after saving the file
+    ["w"] = { "<cmd>w!<CR>", "Save" }, -- Save current file
+    ["o"] = { "<cmd>only<cr>", "only" },
+    -- NVIM tree
+    ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" }, -- File explorer
     -- Telescope
     f = {
         name = "File Search",
+        c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
         f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find files" },
         t = { "<cmd>Telescope live_grep <cr>", "Find Text Pattern In All Files" },
         r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
     },
+    s = {
+        name = "Search",
+        h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
+        m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+        r = { "<cmd>Telescope registers<cr>", "Registers" },
+        k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+        c = { "<cmd>Telescope commands<cr>", "Commands" },
+    },
+    --Toggle Term
+    t = {
+        name = "Terminal",
+        -- n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" }, -- Node Terminal
+        t = { "<cmd>lua _HTOP_TOGGLE()<cr>", "Htop" }, -- (Optional) Htop, If you have htop in linux
+        p = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" }, -- Python Terminal
+        f = { "<cmd>ToggleTerm direction=float<cr>", "Float" }, -- Floating Terminal
 
+        -- Play with size according to your needs.
+        h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" }, -- Horizontal Terminal,
+        v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" }, -- Vertical Terminal
+    },
+    -- undo tree
+    ["u"] = { "<cmd>lua require('undotree').toggle()<CR>", "Undo-Tree" },
     --Git
     g = {
         name = "Git",
@@ -135,8 +140,8 @@ local mappings = {
             "Diff",
         },
     },
-
-    -- Language Server Protocol
+    -- lsp keybindings in whichkey.lua
+    ["r"] = { "<cmd>lua vim.lsp.buf.format{async=true}<cr>", "Reformat Code" },
     l = {
         name = "LSP",
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
@@ -149,28 +154,7 @@ local mappings = {
             "Workspace Symbols",
         },
     },
-    s = {
-        name = "Search",
-        c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
-        h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
-        M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
-        R = { "<cmd>Telescope registers<cr>", "Registers" },
-        k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-        C = { "<cmd>Telescope commands<cr>", "Commands" },
-    },
-
-    --ToggleTerm
-    t = {
-        name = "Terminal",
-        n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
-        t = { "<cmd>lua _HTOP_TOGGLE()<cr>", "Htop" },
-        p = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
-        f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
-        h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
-        v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
-    },
 }
 
 which_key.setup(setup)
 which_key.register(mappings, opts)
-
