@@ -1,15 +1,19 @@
-require 'keymaps'
-require 'options'
-require 'lazy-config'
-require 'lualine-config'
-require 'autopairs-config'
-require 'nvim-tree-config'
-require 'undotree-config'
-require 'bufferline-config'
-require 'indentline-config'
-require 'gitsigns-config'
-require 'telescope-config'
-require 'treesitter-config'
-require 'lsp-config'
-require 'toggleterm-config'
-require 'whichkey'
+require('options')
+require('keymaps')
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup('plugins')
+
+require('autocmds')
