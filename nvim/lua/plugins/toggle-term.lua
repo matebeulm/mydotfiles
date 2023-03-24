@@ -3,6 +3,7 @@ return {
   'akinsho/toggleterm.nvim',
   version = "*",
   keys = {
+    { "<leader>tt", "<cmd>ToggleTerm<cr>", desc = "toggle terminal"},
     { "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<cr>", desc = "pyton" },
     { "<leader>th", "<cmd>lua _HTOP_TOGGLE()<cr>", desc = "htop" },
     { "<leader>tg", "<cmd>lua _GITUI_TOGGLE()<cr>", desc = "gitui" },
@@ -23,7 +24,7 @@ return {
       start_in_insert = true,
       insert_mappings = true,
       persist_size = true,
-      direction = "float",
+      direction = "horizontal",
       close_on_exit = true,
       shell = vim.o.shell,
       float_opts = {
