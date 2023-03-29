@@ -13,14 +13,14 @@ return {
         name = "file",
         r = { "<cmd>lua vim.lsp.buf.format({async=true})<cr>", "reformat file" },
       },
-      g = {
+      l = {
         name = "lsp related",
         d = { "<cmd>Telescope lsp_definitions<cr>", "goto definition" },
         D = { "<cmd>Telescope lsp_declarations<cr>", "goto declaration" },
         h = { "<cmd>lua vim.lsp.buf.hover()<cr>", "hover" },
         gr = { "<cmd>Telescope lsp_references<cr>", "references" },
         gs = { "<cmd>Telescope lsp_signature_help()<cr>", "signature help" },
-        gi = { "<cmd>Telescope lsp_implementaions<cr>", "implementaion" },
+        gi = { "<cmd>Telescope lsp_implementations<cr>", "implementaion" },
         gt = { "<cmd>Telescope lsp_type_definitions<cr>", "type definition" },
         w = { "<cmd>Telescope lsp_document_symbols<cr>", "document symbol" },
         W = { "<cmd>Telescope lsp_workspace_symbols<cr>", "workspace symbol" },
