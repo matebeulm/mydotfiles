@@ -13,7 +13,7 @@ return {
         name = "file",
         r = { "<cmd>lua vim.lsp.buf.format({async=true})<cr>", "reformat file" },
         c = { "<cmd>lua vim.lsp.buf.rename()<cr>", "rename" },
-        s = { "<cmd>ClangdSwitchSourceHeader<cr>", "switch header source in cpp" },
+        -- s = { "<cmd>ClangdSwitchSourceHeader<cr>", "switch header source in cpp" },
       },
       l = {
         -- name = "lsp related",
