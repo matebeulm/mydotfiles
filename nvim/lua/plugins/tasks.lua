@@ -4,6 +4,7 @@ return {
     "nvim-lua/pleanary.nvim",
     "mfussenegger/nvim-dap",
   },
+  lazy = false,
   keys = {
     {"<leader>rcc", "<cmd>Task start cmake configure<cr>", desc = "configure cmake"},
     {"<leader>rct", "<cmd>Task set_module_param cmake target<cr>", desc = "set cmake target"},
@@ -11,6 +12,10 @@ return {
     {"<leader>rcb", "<cmd>Task start cmake build<cr>", desc = "cmake build target"},
     {"<leader>rcr", "<cmd>Task start cmake run<cr>", desc = "cmake run target"},
     {"<leader>rcd", "<cmd>Task start cmake debug<cr>", desc = "cmake debug target"},
+    {"<leader>rrb", "<cmd>Task start cargo build<cr>", desc = "cargo build"},
+    {"<leader>rrd", "<cmd>Task start cargo debug<cr>", desc = "cargo debug"},
+    {"<leader>rrr", "<cmd>Task start cargo run<cr>", desc = "cargo run"},
+    {"<leader>rrt", "<cmd>Task start cargo test<cr>", desc = "cargo test"},
   },
   config = function()
     local Path = require('plenary.path')
