@@ -46,7 +46,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "fugitive",
     "git",
     "gitcommit",
-    "help",
+    -- "help",
     "lspinfo",
     "man",
     "neotest-output",

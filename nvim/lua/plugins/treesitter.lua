@@ -30,7 +30,7 @@ return {
       ensure_installed = {
         "bash",
         "dockerfile",
-        "help",
+        -- "help",
         "html",
         "lua",
         "markdown",
