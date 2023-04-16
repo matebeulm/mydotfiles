@@ -1,9 +1,10 @@
 return {
   "Shatur/neovim-tasks",
   dependecies = {
-    "nvim-lua/pleanary.nvim",
+    "nvim-lua/plenary.nvim",
     "mfussenegger/nvim-dap",
   },
+  lazy = false,
   keys = {
     {"<leader>rcc", "<cmd>Task start cmake configure<cr>", desc = "configure cmake"},
     {"<leader>rct", "<cmd>Task set_module_param cmake target<cr>", desc = "set cmake target"},
@@ -12,6 +13,9 @@ return {
     {"<leader>rcr", "<cmd>Task start cmake run<cr>", desc = "cmake run target"},
     {"<leader>rcd", "<cmd>Task start cmake debug<cr>", desc = "cmake debug target"},
     {"<leader>rrb", "<cmd>Task start cargo build<cr>", desc = "cargo build"},
+    {"<leader>rrd", "<cmd>Task start cargo debug<cr>", desc = "cargo debug"},
+    {"<leader>rrr", "<cmd>Task start cargo run<cr>", desc = "cargo run"},
+    {"<leader>rrt", "<cmd>Task start cargo test<cr>", desc = "cargo test"},
   },
   config = function()
     local Path = require('plenary.path')
@@ -22,7 +26,7 @@ return {
           cmd = 'cmake',                                                     -- CMake executable to use, can be changed using `:Task set_module_param cmake cmd`.
           build_dir = tostring(Path:new('{cwd}', 'build', '{os}-{build_type}')), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values. Could be a function that return the path to the build directory.
           build_type = 'Debug',                                              -- Build type, can be changed using `:Task set_module_param cmake build_type`.
-          dap_name = 'lldb',                                                 -- DAP configuration name from `require('dap').configurations`. If there is no such configuration, a new one with this name as `type` will be created.
+          dap_name = 'codelldb',                                                 -- DAP configuration name from `require('dap').configurations`. If there is no such configuration, a new one with this name as `type` will be created.
           args = {                                                           -- Task default arguments.
             configure = { '-D', 'CMAKE_EXPORT_COMPILE_COMMANDS=1', '-G', 'Ninja' },
           },
@@ -35,8 +39,11 @@ return {
         height = 12,           -- Default height.
       },
       dap_open_command = function()
-        return require('dap').repl.open()
+        -- return false
+        require("dapui").open()
+        -- return require('dap').repl.open()
       end, -- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
     })
   end
 }
+

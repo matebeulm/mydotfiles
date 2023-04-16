@@ -1,121 +1,30 @@
-local swap_next, swap_prev = (function()
-  local swap_objects = {
-    p = "@parameter.inner",
-    f = "@function.outer",
-    c = "@class.outer",
-  }
-
-  local n, p = {}, {}
-  for key, obj in pairs(swap_objects) do
-    n[string.format("<leader>cx%s", key)] = obj
-    p[string.format("<leader>cX%s", key)] = obj
-  end
-
-  return n, p
-end)()
-
 return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "JoosepAlviste/nvim-ts-context-commentstring",
-      "RRethy/nvim-treesitter-endwise",
-      "windwp/nvim-ts-autotag",
-    },
-    build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile" },
-    opts = {
-      sync_install = false,
-      ensure_installed = {
-        "bash",
-        "dockerfile",
-        "help",
-        "html",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "org",
-        "query",
-        "regex",
-        "latex",
-        "vim",
-        "yaml",
-      },
-      highlight = { enable = true, additional_vim_regex_highlighting = { "org", "markdown" } },
-      indent = { enable = true, disable = { "python" } },
-      context_commentstring = { enable = true },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "gnn",
-          node_incremental = "grn",
-          scope_incremental = "grc",
-          node_decremental = "grm",
-        },
-      },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-          keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
-            ["aa"] = "@parameter.outer",
-            ["ia"] = "@parameter.inner",
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = "@class.inner",
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            ["]m"] = "@function.outer",
-            ["]]"] = "@class.outer",
-          },
-          goto_next_end = {
-            ["]M"] = "@function.outer",
-            ["]["] = "@class.outer",
-          },
-          goto_previous_start = {
-            ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
-          },
-          goto_previous_end = {
-            ["[M"] = "@function.outer",
-            ["[]"] = "@class.outer",
-          },
-        },
-        swap = {
-          enable = true,
-          swap_next = swap_next,
-          swap_previous = swap_prev,
-        },
-      },
-      matchup = {
-        enable = true,
-      },
-      endwise = {
-        enable = true,
-      },
-      autotag = {
-        enable = true,
-      },
-    },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+    'nvim-treesitter/nvim-treesitter',
+    build = function()
+        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+        ts_update()
     end,
-  },
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
     config = function()
-      local npairs = require "nvim-autopairs"
-      npairs.setup {
-        check_ts = true,
-      }
+        require'nvim-treesitter.configs'.setup {
+            -- A list of parser names, or "all" (the five listed parsers should always be installed)
+            ensure_installed = { "rust", "python", "json", "toml", "cmake", "c", "lua", "vim", "vimdoc", "query" },
+
+            -- Install parsers synchronously (only applied to `ensure_installed`)
+            sync_install = false,
+
+            -- Automatically install missing parsers when entering buffer
+            -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+            auto_install = true,
+
+            highlight = {
+                enable = true,
+
+                -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+                -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+                -- Using this option may slow down your editor, and you may see some duplicate highlights.
+                -- Instead of true it can also be a list of languages
+                additional_vim_regex_highlighting = false,
+            },
+        }
     end,
-  },
 }
