@@ -1,7 +1,7 @@
 return {
   -- Lualine
   'nvim-lualine/lualine.nvim',
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  dependencies = { { 'nvim-tree/nvim-web-devicons' }, { "SmiteshP/nvim-navic" } },
   config = function()
     -- Lualine Configuration
     -- This configuration is mainly implemented from their github repository.
@@ -28,7 +28,7 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 
+        lualine_c = {
           'filename',
           {
             function()

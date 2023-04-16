@@ -1,6 +1,7 @@
 return {
 	-- Auto Pairs
 	"windwp/nvim-autopairs",
+  dependencies = {{"hrsh7th/nvim-cmp"}},
 	config = function()
 		-- autopairs-config.lua
 
