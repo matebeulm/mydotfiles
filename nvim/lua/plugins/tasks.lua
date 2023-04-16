@@ -11,6 +11,7 @@ return {
     {"<leader>rcb", "<cmd>Task start cmake build<cr>", desc = "cmake build target"},
     {"<leader>rcr", "<cmd>Task start cmake run<cr>", desc = "cmake run target"},
     {"<leader>rcd", "<cmd>Task start cmake debug<cr>", desc = "cmake debug target"},
+    {"<leader>rrb", "<cmd>Task start cargo build<cr>", desc = "cargo build"},
   },
   config = function()
     local Path = require('plenary.path')
