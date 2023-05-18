@@ -5,9 +5,13 @@ return {
     opts = {},
   },
   {
-    "numToStr/Comment.nvim",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    keys = { { "gc", mode = { "n", "v" } }, { "gcc", mode = { "n", "v" } }, { "gbc", mode = { "n", "v" } } },
+    'numToStr/Comment.nvim',
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    keys = {
+      { 'gc', mode = { 'n', 'v' } },
+      { 'gcc', mode = { 'n', 'v' } },
+      { 'gbc', mode = { 'n', 'v' } },
+    },
     config = function(_, _)
       local opts = {
         ignore = "^$",
@@ -53,6 +57,9 @@ return {
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
       end
 
+      -- If you want insert `(` after select function or method item
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
       cmp.setup {
         completion = {
           completeopt = "menu,menuone,noinsert",
@@ -167,6 +174,42 @@ return {
     },
     config = function(_, opts)
       require("luasnip").setup(opts)
+    end,
+  },
+  {
+    'shatur/neovim-tasks',
+    dependencies = {
+      { 'nvim-lua/plenary.nvim' },
+      { 'mfussenegger/nvim-dap' },
+    },
+    keys = {
+      { '<leader>cb', '<cmd>Task start cmake build<cr>', desc = 'cmake build' },
+      {
+        '<leader>cc',
+        '<cmd>Task start cmake configure<cr>',
+        desc = 'cmake configure',
+      },
+      { '<leader>cd', '<cmd>Task start cmake debug<cr>', desc = 'cmake debug' },
+      { '<leader>cr', '<cmd>Task start cmake run<cr>', desc = 'cmake run' },
+      { '<leader>rb', '<cmd>Task start cargo build<cr>', desc = 'cargo build' },
+      { '<leader>rd', '<cmd>Task start cargo debug<cr>', desc = 'cargo debug' },
+      { '<leader>rr', '<cmd>Task start cargo run<cr>', desc = 'cargo run' },
+      { '<leader>rt', '<cmd>Task start cargo test<cr>', desc = 'cargo test' },
+    },
+    config = function()
+      require('tasks').setup({
+        defaulte_params = {
+          cargo = {
+            dap_name = 'codelldb',
+          },
+        },
+      })
+    end,
+  },
+  {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup({})
     end,
   },
 }

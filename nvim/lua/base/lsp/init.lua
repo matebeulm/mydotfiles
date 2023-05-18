@@ -4,7 +4,9 @@ return {
     event = "VeryLazy",
     opts = {
       defaults = {
-        ["<leader>l"] = { name = "+LSP" },
+        ['<leader>l'] = { name = '+LSP' },
+        ['<leader>c'] = { name = '+cmake' },
+        ['<leader>r'] = { name = '+rust/cargo' },
       },
     },
   },
