@@ -1,22 +1,22 @@
 return {
   {
-    'folke/which-key.nvim',
-    event = 'VeryLazy',
+    "folke/which-key.nvim",
+    event = "VeryLazy",
     opts = {
       defaults = {
-        ['<leader>l'] = { name = '+LSP' },
-        ['<leader>c'] = { name = '+cmake' },
-        ['<leader>r'] = { name = '+rust/cargo' },
+        ["<leader>l"] = { name = "+LSP" },
+        ["<leader>c"] = { name = "+cmake" },
+        ["<leader>r"] = { name = "+rust/cargo" },
       },
     },
   },
   {
-    'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNewFile' },
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { 'j-hui/fidget.nvim', config = true },
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
+      { "j-hui/fidget.nvim", config = true },
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
       -- "jay-babu/mason-null-ls.nvim",
     },
     opts = {
@@ -24,21 +24,21 @@ return {
       setup = {},
     },
     config = function(plugin, opts)
-      require('base.lsp.servers').setup(plugin, opts)
+      require("base.lsp.servers").setup(plugin, opts)
     end,
   },
   {
-    'williamboman/mason.nvim',
-    build = ':MasonUpdate',
-    cmd = 'Mason',
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate",
+    cmd = "Mason",
     opts = {
       ensure_installed = {
-        'shfmt',
+        "shfmt",
       },
     },
     config = function(_, opts)
-      require('mason').setup(opts)
-      local mr = require('mason-registry')
+      require("mason").setup(opts)
+      local mr = require "mason-registry"
       local function ensure_installed()
         for _, tool in ipairs(opts.ensure_installed) do
           local p = mr.get_package(tool)
@@ -55,18 +55,13 @@ return {
     end,
   },
   {
-    'jose-elias-alvarez/null-ls.nvim',
-    event = 'BufReadPre',
-    dependencies = { 'mason.nvim' },
+    "jose-elias-alvarez/null-ls.nvim",
+    event = "BufReadPre",
+    dependencies = { "mason.nvim" },
     opts = function()
-      local nls = require('null-ls')
+      local nls = require "null-ls"
       return {
-        root_dir = require('null-ls.utils').root_pattern(
-          '.null-ls-root',
-          '.neoconf.json',
-          'Makefile',
-          '.git'
-        ),
+        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
         sources = {
           nls.builtins.formatting.shfmt,
         },

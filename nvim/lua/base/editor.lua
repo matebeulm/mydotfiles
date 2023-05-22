@@ -35,9 +35,9 @@ return {
       },
     },
     config = function(_, opts)
-      local telescope = require("telescope")
+      local telescope = require "telescope"
       telescope.setup(opts)
-      telescope.load_extension("fzf")
+      telescope.load_extension "fzf"
     end,
   },
   {
@@ -54,7 +54,7 @@ return {
       },
     },
     config = function(_, opts)
-      local wk = require("which-key")
+      local wk = require "which-key"
       wk.setup(opts)
       wk.register(opts.defaults)
     end,

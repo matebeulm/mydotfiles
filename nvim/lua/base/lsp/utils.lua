@@ -35,4 +35,3 @@ function M.toggle_diagnostics()
 end
 
 return M
-
