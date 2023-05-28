@@ -1,3 +1,7 @@
+if not require("config").pde.rust then
+  return {}
+end
+
 local function get_codelldb()
   local mason_registry = require "mason-registry"
   local codelldb = mason_registry.get_package "codelldb"
@@ -29,10 +33,10 @@ return {
           settings = {
             ["rust-analyzer"] = {
               cargo = { allFeatures = true },
-              checkOnSave = {
-                command = "cargo clippy",
-                extraArgs = { "--no-deps" },
-              },
+              -- checkOnSave = {
+              --   command = "cargo clippy",
+              --   extraArgs = { "--no-deps" },
+              -- },
             },
           },
         },
@@ -41,13 +45,45 @@ return {
         rust_analyzer = function(_, opts)
           local codelldb_path, liblldb_path = get_codelldb()
           local lsp_utils = require "base.lsp.utils"
-          lsp_utils.on_attach(function(client, buffer)
+          lsp_utils.on_attach(function(client, bufnr)
+            local map = function(mode, lhs, rhs, desc)
+              if desc then
+                desc = desc
+              end
+              vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc, buffer = bufnr, noremap = true })
+            end
             -- stylua: ignore
             if client.name == "rust_analyzer" then
-              vim.keymap.set("n", "<leader>lR", "<cmd>RustRunnables<cr>", { buffer = buffer, desc = "Runnables" })
-              vim.keymap.set("n", "<leader>ll", function() vim.lsp.codelens.run() end, { buffer = buffer, desc = "Code Lens" })
+              map("n", "<leader>le", "<cmd>RustRunnables<cr>", "Runnables")
+              map("n", "<leader>ll", function() vim.lsp.codelens.run() end, "Code Lens" )
+              map("n", "<leader>lt", "<cmd>Cargo test<cr>", "Cargo test" )
+              map("n", "<leader>lR", "<cmd>Cargo run<cr>", "Cargo run" )
             end
           end)
+
+          vim.api.nvim_create_autocmd({ "BufEnter" }, {
+            pattern = { "Cargo.toml" },
+            callback = function(event)
+              local bufnr = event.buf
+
+              -- Register keymappings
+              local wk = require "which-key"
+              local keys = { mode = { "n", "v" }, ["<leader>lc"] = { name = "+Crates" } }
+              wk.register(keys)
+
+              local map = function(mode, lhs, rhs, desc)
+                if desc then
+                  desc = desc
+                end
+                vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc, buffer = bufnr, noremap = true })
+              end
+              map("n", "<leader>lcy", "<cmd>lua require'crates'.open_repository()<cr>", "Open Repository")
+              map("n", "<leader>lcp", "<cmd>lua require'crates'.show_popup()<cr>", "Show Popup")
+              map("n", "<leader>lci", "<cmd>lua require'crates'.show_crate_popup()<cr>", "Show Info")
+              map("n", "<leader>lcf", "<cmd>lua require'crates'.show_features_popup()<cr>", "Show Features")
+              map("n", "<leader>lcd", "<cmd>lua require'crates'.show_dependencies_popup()<cr>", "Show Dependencies")
+            end,
+          })
 
           require("rust-tools").setup {
             tools = {
@@ -70,6 +106,22 @@ return {
         end,
       },
     },
+  },
+  {
+    "saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+      null_ls = {
+        enabled = true,
+        name = "crates.nvim",
+      },
+      popup = {
+        border = "rounded",
+      },
+    },
+    config = function(_, opts)
+      require("crates").setup(opts)
+    end,
   },
   {
     "mfussenegger/nvim-dap",
@@ -107,5 +159,16 @@ return {
         end,
       },
     },
+  },
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "rouge8/neotest-rust",
+    },
+    opts = function(_, opts)
+      vim.list_extend(opts.adapters, {
+        require "neotest-rust",
+      })
+    end,
   },
 }

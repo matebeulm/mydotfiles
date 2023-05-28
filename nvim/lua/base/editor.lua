@@ -11,8 +11,6 @@ return {
       { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Git Files" },
       { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
       { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
-      { "<leader>fs", "<cmd>Telescope grep_string<cr>", desc = "Search" },
-      { "<leader>fl", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
     },
     opts = {
       defaults = {
@@ -35,9 +33,9 @@ return {
       },
     },
     config = function(_, opts)
-      local telescope = require("telescope")
+      local telescope = require "telescope"
       telescope.setup(opts)
-      telescope.load_extension("fzf")
+      telescope.load_extension "fzf"
     end,
   },
   {
@@ -54,7 +52,7 @@ return {
       },
     },
     config = function(_, opts)
-      local wk = require("which-key")
+      local wk = require "which-key"
       wk.setup(opts)
       wk.register(opts.defaults)
     end,

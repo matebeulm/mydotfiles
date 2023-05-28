@@ -33,7 +33,6 @@ vim.api.nvim_create_autocmd("FileType", {
     "floggraph",
     "fugitive",
     "git",
-    "gitcommit",
     "help",
     "lspinfo",
     "man",
@@ -48,10 +47,10 @@ vim.api.nvim_create_autocmd("FileType", {
     "vim",
     "neoai-input",
     "neoai-output",
+    "notify",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
   end,
 })
-

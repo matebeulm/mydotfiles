@@ -1,6 +1,7 @@
 if not require("config").pde.lua then
   return {}
 end
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -24,8 +25,13 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "folke/neodev.nvim",
-      opts = {},
+      {
+        "folke/neodev.nvim",
+        opts = {
+          plugins = { "neotest" },
+          types = true,
+        },
+      },
     },
     opts = {
       servers = {
@@ -95,5 +101,15 @@ return {
       },
     },
   },
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/neotest-plenary",
+    },
+    opts = function(_, opts)
+      vim.list_extend(opts.adapters, {
+        require "neotest-plenary",
+      })
+    end,
+  },
 }
-

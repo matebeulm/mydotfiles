@@ -19,7 +19,7 @@ function M.on_attach(on_attach)
   })
 end
 
-local diagnostics_active = false
+local diagnostics_active = true
 
 function M.show_diagnostics()
   return diagnostics_active
@@ -34,5 +34,13 @@ function M.toggle_diagnostics()
   end
 end
 
-return M
+function M.opts(name)
+  local plugin = require("lazy.core.config").plugins[name]
+  if not plugin then
+    return {}
+  end
+  local Plugin = require "lazy.core.plugin"
+  return Plugin.values(plugin, "opts", false)
+end
 
+return M

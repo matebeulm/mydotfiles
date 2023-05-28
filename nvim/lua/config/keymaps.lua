@@ -50,4 +50,3 @@ keymap("n", "i", function()
     return "i"
   end
 end, { expr = true })
-
