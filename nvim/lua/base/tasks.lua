@@ -4,13 +4,14 @@ return {
     'nvim-lua/plenary.nvim',
     'mfussenegger/nvim-dap',
   },
+  event = 'BufEnter *.rs',
   config = function()
-    require('tasks').setup({
+    require('tasks').setup {
       default_params = {
         cargo = {
           dap_name = 'codelldb',
         },
       },
-    })
+    }
   end,
 }

@@ -1,8 +1,8 @@
 return {
   pde = {
     cpp = true,
-    go = true,
-    java = true,
+    go = false,
+    java = false,
     lua = true,
     python = true,
     rust = true,

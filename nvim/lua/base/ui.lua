@@ -1,51 +1,51 @@
 return {
   {
-    "nvim-tree/nvim-web-devicons",
-    dependencies = { "DaikyXendo/nvim-material-icon" },
+    'nvim-tree/nvim-web-devicons',
+    dependencies = { 'DaikyXendo/nvim-material-icon' },
     config = function()
-      require("nvim-web-devicons").setup {
-        override = require("nvim-material-icon").get_icons(),
+      require('nvim-web-devicons').setup {
+        override = require('nvim-material-icon').get_icons(),
       }
     end,
   },
   {
-    "folke/tokyonight.nvim",
+    'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
     opts = {
-      style = "night",
+      style = 'night',
       transparent = false,
       styles = {
-        sidebars = "transparent",
-        floats = "transparent",
+        sidebars = 'transparent',
+        floats = 'transparent',
       },
     },
     config = function(_, opts)
-      local tokyonight = require "tokyonight"
+      local tokyonight = require 'tokyonight'
       tokyonight.setup(opts)
       tokyonight.load()
     end,
   },
-  { "catppuccin/nvim", lazy = false, name = "catppuccin" },
+  { 'catppuccin/nvim', lazy = false, name = 'catppuccin' },
   {
-    "stevearc/dressing.nvim",
-    event = "VeryLazy",
+    'stevearc/dressing.nvim',
+    event = 'VeryLazy',
     opts = {},
   },
   {
-    "folke/noice.nvim",
+    'folke/noice.nvim',
     dependencies = {
-      "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
+      'MunifTanjim/nui.nvim',
+      'rcarriga/nvim-notify',
     },
-    event = "VeryLazy",
+    event = 'VeryLazy',
     enabled = true,
     opts = {
       lsp = {
         override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
+          ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+          ['vim.lsp.util.stylize_markdown'] = true,
+          ['cmp.entry.get_documentation'] = true,
         },
       },
       presets = {

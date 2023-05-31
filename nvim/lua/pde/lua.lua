@@ -1,34 +1,34 @@
-if not require("config").pde.lua then
+if not require('config').pde.lua then
   return {}
 end
 
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
+    'nvim-treesitter/nvim-treesitter',
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "lua", "luadoc", "luap" })
+      vim.list_extend(opts.ensure_installed, { 'lua', 'luadoc', 'luap' })
     end,
   },
   {
-    "williamboman/mason.nvim",
+    'williamboman/mason.nvim',
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "stylua" })
+      vim.list_extend(opts.ensure_installed, { 'stylua' })
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    'jose-elias-alvarez/null-ls.nvim',
     opts = function(_, opts)
-      local nls = require "null-ls"
+      local nls = require 'null-ls'
       table.insert(opts.sources, nls.builtins.formatting.stylua)
     end,
   },
   {
-    "neovim/nvim-lspconfig",
+    'neovim/nvim-lspconfig',
     dependencies = {
       {
-        "folke/neodev.nvim",
+        'folke/neodev.nvim',
         opts = {
-          plugins = { "neotest" },
+          plugins = { 'neotest' },
           types = true,
         },
       },
@@ -41,7 +41,7 @@ return {
               workspace = {
                 checkThirdParty = false,
               },
-              completion = { callSnippet = "Replace" },
+              completion = { callSnippet = 'Replace' },
               telemetry = { enable = false },
               hint = {
                 enable = false,
@@ -52,7 +52,7 @@ return {
       },
       setup = {
         lua_ls = function(_, _)
-          local lsp_utils = require "base.lsp.utils"
+          local lsp_utils = require 'base.lsp.utils'
           lsp_utils.on_attach(function(client, buffer)
             -- stylua: ignore
             if client.name == "lua_ls" then
@@ -66,49 +66,49 @@ return {
   },
   -- Debugging
   {
-    "mfussenegger/nvim-dap",
+    'mfussenegger/nvim-dap',
     dependencies = {
-      { "jbyuki/one-small-step-for-vimkind" },
+      { 'jbyuki/one-small-step-for-vimkind' },
     },
     opts = {
       setup = {
         osv = function(_, _)
-          local dap = require "dap"
+          local dap = require 'dap'
           dap.configurations.lua = {
             {
-              type = "nlua",
-              request = "attach",
-              name = "Attach to running Neovim instance",
+              type = 'nlua',
+              request = 'attach',
+              name = 'Attach to running Neovim instance',
               host = function()
-                local value = vim.fn.input "Host [127.0.0.1]: "
-                if value ~= "" then
+                local value = vim.fn.input 'Host [127.0.0.1]: '
+                if value ~= '' then
                   return value
                 end
-                return "127.0.0.1"
+                return '127.0.0.1'
               end,
               port = function()
-                local val = tonumber(vim.fn.input("Port: ", "8086"))
-                assert(val, "Please provide a port number")
+                local val = tonumber(vim.fn.input('Port: ', '8086'))
+                assert(val, 'Please provide a port number')
                 return val
               end,
             },
           }
 
           dap.adapters.nlua = function(callback, config)
-            callback { type = "server", host = config.host, port = config.port }
+            callback { type = 'server', host = config.host, port = config.port }
           end
         end,
       },
     },
   },
   {
-    "nvim-neotest/neotest",
+    'nvim-neotest/neotest',
     dependencies = {
-      "nvim-neotest/neotest-plenary",
+      'nvim-neotest/neotest-plenary',
     },
     opts = function(_, opts)
       vim.list_extend(opts.adapters, {
-        require "neotest-plenary",
+        require 'neotest-plenary',
       })
     end,
   },
