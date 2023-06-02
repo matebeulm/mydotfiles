@@ -18,6 +18,7 @@ return {
       require('lualine').setup {
         sections = {
           lualine_c = {
+            { 'filename', path = 1 },
             {
               function()
                 return navic.get_location()
