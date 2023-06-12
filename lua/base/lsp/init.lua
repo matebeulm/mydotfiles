@@ -12,7 +12,7 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'j-hui/fidget.nvim', config = true },
+      { 'j-hui/fidget.nvim', config = true, tag = 'legacy' },
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
     },
