@@ -1,12 +1,12 @@
 return {
-  { 'tpope/vim-sleuth', event = 'VeryLazy' },
-  { 'tpope/vim-repeat', event = 'VeryLazy' },
-  { 'nvim-lua/plenary.nvim' },
+  { "tpope/vim-sleuth", event = "VeryLazy" },
+  { "tpope/vim-repeat", event = "VeryLazy" },
+  { "nvim-lua/plenary.nvim" },
   {
-    'tpope/vim-fugitive',
-    cmd = { 'Git', 'GBrowse', 'Gdiffsplit', 'Gvdiffsplit' },
+    "tpope/vim-fugitive",
+    cmd = { "Git", "GBrowse", "Gdiffsplit", "Gvdiffsplit" },
     dependencies = {
-      'tpope/vim-rhubarb',
+      "tpope/vim-rhubarb",
     },
     -- stylua: ignore
     keys = {
@@ -14,9 +14,9 @@ return {
     },
   },
   {
-    'folke/persistence.nvim',
-    event = 'BufReadPre',
-    opts = { options = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help' } },
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help" } },
     -- stylua: ignore
     keys = {
       { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
@@ -25,11 +25,11 @@ return {
     },
   },
   {
-    'folke/which-key.nvim',
-    event = 'VeryLazy',
+    "folke/which-key.nvim",
+    event = "VeryLazy",
     opts = {
       defaults = {
-        ['<leader>g'] = { name = '+Git' },
+        ["<leader>g"] = { name = "+Git" },
       },
     },
   },

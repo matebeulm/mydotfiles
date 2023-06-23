@@ -1,24 +1,24 @@
 return {
   {
-    'SmiteshP/nvim-navic',
-    dependencies = { { 'neovim/nvim-lspconfig' } },
+    "SmiteshP/nvim-navic",
+    dependencies = { { "neovim/nvim-lspconfig" } },
     config = function()
-      require('nvim-navic').setup()
+      require("nvim-navic").setup()
     end,
   },
   {
-    'nvim-lualine/lualine.nvim',
+    "nvim-lualine/lualine.nvim",
     dependencies = {
-      { 'nvim-tree/nvim-web-devicons' },
+      { "nvim-tree/nvim-web-devicons" },
     },
-    event = 'BufEnter',
+    event = "BufEnter",
     config = function()
-      local navic = require 'nvim-navic'
+      local navic = require "nvim-navic"
 
-      require('lualine').setup {
+      require("lualine").setup {
         sections = {
           lualine_c = {
-            { 'filename', path = 1 },
+            { "filename", path = 1 },
             {
               function()
                 return navic.get_location()

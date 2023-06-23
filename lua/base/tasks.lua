@@ -1,15 +1,15 @@
 return {
-  'shatur/neovim-tasks',
+  "shatur/neovim-tasks",
   dependencies = {
-    'nvim-lua/plenary.nvim',
-    'mfussenegger/nvim-dap',
+    "nvim-lua/plenary.nvim",
+    "mfussenegger/nvim-dap",
   },
-  event = 'BufEnter *.rs',
+  event = "BufEnter *.rs",
   config = function()
-    require('tasks').setup {
+    require("tasks").setup {
       default_params = {
         cargo = {
-          dap_name = 'codelldb',
+          dap_name = "codelldb",
         },
       },
     }

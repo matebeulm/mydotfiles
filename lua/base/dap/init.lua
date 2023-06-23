@@ -1,18 +1,18 @@
 return {
   {
-    'folke/which-key.nvim',
-    event = 'VeryLazy',
+    "folke/which-key.nvim",
+    event = "VeryLazy",
     opts = {
       defaults = {
-        ['<leader>d'] = { name = '+DAP' },
+        ["<leader>d"] = { name = "+DAP" },
       },
     },
   },
   {
-    'mfussenegger/nvim-dap',
+    "mfussenegger/nvim-dap",
     dependencies = {
-      { 'rcarriga/nvim-dap-ui' },
-      { 'theHamsta/nvim-dap-virtual-text' },
+      { "rcarriga/nvim-dap-ui" },
+      { "theHamsta/nvim-dap-virtual-text" },
     },
     -- stylua: ignore
     keys = {
@@ -39,20 +39,20 @@ return {
     },
     opts = {},
     config = function(plugin, opts)
-      require('nvim-dap-virtual-text').setup {
+      require("nvim-dap-virtual-text").setup {
         commented = true,
       }
 
-      local dap, dapui = require 'dap', require 'dapui'
+      local dap, dapui = require "dap", require "dapui"
       dapui.setup {}
 
-      dap.listeners.after.event_initialized['dapui_config'] = function()
+      dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
       end
-      dap.listeners.before.event_terminated['dapui_config'] = function()
+      dap.listeners.before.event_terminated["dapui_config"] = function()
         dapui.close()
       end
-      dap.listeners.before.event_exited['dapui_config'] = function()
+      dap.listeners.before.event_exited["dapui_config"] = function()
         dapui.close()
       end
 
